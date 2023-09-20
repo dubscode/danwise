@@ -27,6 +27,7 @@ export function WebStack({ stack }: StackContext) {
     environment: {
       VITE_APP_API_URL: `https://${apiDomain}/graphql`,
       VITE_CLERK_PUBLISHABLE_KEY: clerkPublishableKey.stringValue || '',
+      VITE_STAGE_NAME: stack.stage,
     },
   });
 }
