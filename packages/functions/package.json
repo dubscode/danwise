@@ -7,9 +7,15 @@
     "typecheck": "tsc -noEmit"
   },
   "devDependencies": {
-    "@types/node": "^20.6.3",
     "@types/aws-lambda": "^8.10.121",
-    "vitest": "^0.34.4",
-    "sst": "^2.25.5"
+    "@types/node": "^20.6.3",
+    "sst": "^2.25.5",
+    "vitest": "^0.34.4"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.9.3",
+    "@as-integrations/aws-lambda": "^3.1.0",
+    "@pothos/core": "^3.36.0",
+    "graphql-scalars": "^1.22.2"
   }
 }

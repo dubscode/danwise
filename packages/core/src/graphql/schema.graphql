@@ -1,0 +1,27 @@
+scalar Date
+
+scalar DateTime
+
+scalar JSON
+
+type Mutation {
+  createUser(clerkId: String!, email: String!, name: String): User
+}
+
+scalar PhoneNumber
+
+type Query {
+  users: [User!]
+}
+
+scalar URL
+
+"""User record from the database."""
+type User {
+  clerkId: ID
+  created: DateTime
+  email: String
+  id: ID
+  name: String
+  updated: DateTime
+}

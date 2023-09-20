@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "sst dev",
+    "dev:web": "npm run dev --workspace=apps/web",
     "build": "sst build",
-    "deploy": "sst deploy",
+    "deploy": "sst deploy --stage dev",
     "remove": "sst remove",
     "console": "sst console",
+    "test:core": "npm run test --workspace=packages/core",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write"
   },
@@ -21,6 +23,7 @@
     "typescript": "^5.2.2"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "apps/*"
   ]
 }
