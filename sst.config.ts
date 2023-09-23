@@ -1,8 +1,9 @@
-import { SSTConfig } from 'sst';
-import { DomainStack } from './stacks/domain-stack';
 import { ApiStack } from './stacks/api-stack';
-import { WebStack } from './stacks/web-stack';
+import { DomainStack } from './stacks/domain-stack';
+import { DynamoStack } from './stacks/dynamo-stack';
+import { SSTConfig } from 'sst';
 import { Tags } from 'aws-cdk-lib';
+import { WebStack } from './stacks/web-stack';
 
 export default {
   config(_input) {
@@ -32,7 +33,8 @@ export default {
 
     app
       .stack(DomainStack, { id: 'domain-stack' })
+      .stack(DynamoStack, { id: 'dynamo-stack' })
       .stack(ApiStack, { id: 'api-stack' })
       .stack(WebStack, { id: 'web-stack' });
   },
-} satisfies SSTConfig;
+} as SSTConfig;

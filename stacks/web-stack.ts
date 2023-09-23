@@ -3,6 +3,7 @@ import * as ssm from 'aws-cdk-lib/aws-ssm';
 import { StackContext, StaticSite, use } from 'sst/constructs';
 
 import { DomainStack } from './domain-stack';
+import { Tags } from 'aws-cdk-lib';
 
 export function WebStack({ stack }: StackContext) {
   const { apiDomain, domain, hostedZone } = use(DomainStack);
@@ -15,7 +16,7 @@ export function WebStack({ stack }: StackContext) {
     },
   );
 
-  new StaticSite(stack, 'web-stack', {
+  const site = new StaticSite(stack, 'web-stack', {
     customDomain: {
       domainAlias: 'www.' + domain,
       domainName: domain,
@@ -30,4 +31,6 @@ export function WebStack({ stack }: StackContext) {
       VITE_STAGE_NAME: stack.stage,
     },
   });
+
+  Tags.of(site).add('component', 'web');
 }
