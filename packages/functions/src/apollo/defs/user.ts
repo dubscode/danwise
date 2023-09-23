@@ -8,8 +8,14 @@ const UserType = builder.objectRef<UserModel.UserType>('User').implement({
     clerkId: t.exposeID('clerkId'),
     email: t.exposeString('email'),
     name: t.exposeString('name'),
-    created: t.expose('created', { type: 'DateTime' }),
-    updated: t.expose('updated', { type: 'DateTime' }),
+    created: t.field({
+      type: 'DateTime',
+      resolve: (user) => new Date(user.created!),
+    }),
+    updated: t.field({
+      type: 'DateTime',
+      resolve: (user) => new Date(user.updated!),
+    }),
   }),
 });
 
@@ -31,7 +37,7 @@ builder.mutationFields((t) => ({
       name: t.arg.string(),
     },
     resolve: (_, args) => {
-      return UserModel.createUser();
+      return UserModel.createUser(args);
     },
   }),
 }));

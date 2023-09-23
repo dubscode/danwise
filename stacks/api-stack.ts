@@ -1,11 +1,22 @@
 import { Api, StackContext, use } from 'sst/constructs';
 
 import { DomainStack } from './domain-stack';
+import { DynamoStack } from './dynamo-stack';
+import { Tags } from 'aws-cdk-lib';
 
 export function ApiStack({ stack }: StackContext) {
   const { allowOrigins, apiDomain, hostedZone } = use(DomainStack);
+  const { db } = use(DynamoStack);
 
   const api = new Api(stack, 'api-stack', {
+    defaults: {
+      function: {
+        bind: [db],
+        environment: {
+          TABLE_NAME: db.tableName,
+        },
+      },
+    },
     cors: {
       allowCredentials: true,
       allowHeaders: ['content-type', 'authorization', 'accept'],
@@ -38,6 +49,8 @@ export function ApiStack({ stack }: StackContext) {
       },
     },
   });
+
+  Tags.of(api).add('component', 'api');
 
   const apiUrl = api.customDomainUrl || api.url;
   const graphqlUrl = `${apiUrl}/graphql`;
