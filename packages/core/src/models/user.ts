@@ -92,7 +92,44 @@ export const createUser = async (input: CreateUserInput) => {
   return data;
 };
 
+export const deleteUser = async (id: string) => {
+  const { data } = await UserEntity.delete({ id }).go();
+  return data;
+};
+
+export const findOrCreateUser = async (input: CreateUserInput) => {
+  const { clerkId, email, name } = input;
+
+  const { data } = await UserEntity.upsert({ email })
+    .set({
+      clerkId,
+      email,
+      ...(name && { name }),
+    })
+    .go({ response: 'all_new' });
+
+  return data;
+};
+
+export const findUserByClerkId = async (clerkId: string) => {
+  const { data } = await UserEntity.query.clerk({ clerkId }).go();
+  return data[0];
+};
+
+export const findUserByEmail = async (email: string) => {
+  const { data } = await UserEntity.query.email({ email }).go();
+  return data[0];
+};
+
 export const listUsers = async () => {
   const { data } = await UserEntity.scan.go();
+  return data;
+};
+
+export const updateUser = async (id: string, input: Partial<UserType>) => {
+  const { data } = await UserEntity.patch({ id })
+    .set({ ...input })
+    .go({ response: 'all_new' });
+
   return data;
 };
