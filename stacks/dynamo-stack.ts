@@ -1,7 +1,7 @@
+import { Config, StackContext, Table } from 'sst/constructs';
 import { RemovalPolicy, Tags } from 'aws-cdk-lib';
-import { StackContext, Table } from 'sst/constructs';
 
-export function DynamoStack({ stack }: StackContext) {
+export function DynamoStack({ app, stack }: StackContext) {
   const db = new Table(stack, 'dynamo-table', {
     fields: {
       pk: 'string',
@@ -29,5 +29,11 @@ export function DynamoStack({ stack }: StackContext) {
 
   Tags.of(db).add('component', 'database');
 
-  return { db };
+  const TABLE_NAME = new Config.Parameter(stack, 'TABLE_NAME', {
+    value: db.tableName,
+  });
+
+  app.addDefaultFunctionBinding([TABLE_NAME]);
+
+  return { db, TABLE_NAME };
 }

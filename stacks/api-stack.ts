@@ -12,9 +12,6 @@ export function ApiStack({ stack }: StackContext) {
     defaults: {
       function: {
         bind: [db],
-        environment: {
-          TABLE_NAME: db.tableName,
-        },
       },
     },
     cors: {
